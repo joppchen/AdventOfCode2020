@@ -7,12 +7,13 @@ class MainClass {
     
     var input = new inputClass();
     var calc = new solver();
-    calc.sumTo2020(input.fullReport);
+    //calc.day1A(input.fullReport);
+    calc.day1B(input.fullReport);
   }
 }
 
 class solver {
-  public void sumTo2020(List<int> theList){
+  public void day1A(List<int> theList){
     int listLength = theList.Count;
     //Console.WriteLine(listLength);
     
@@ -44,6 +45,48 @@ class solver {
     Console.WriteLine(tall1);
     Console.WriteLine(tall2);
     Console.WriteLine(tall1*tall2);
+  }
+  
+  public void day1B(List<int> theList){
+    int listLength = theList.Count;
+    
+    int index1 = -1;
+    int index2 = -1;
+    int index3 = -1;
+    bool foundit = false;
+    
+    for (int i = 0; i < listLength; i++){
+      
+      for (int j = 1; j < listLength; j++){
+        
+        if (i == j) continue;
+        
+        for (int k = 2; k < listLength; k++){
+          
+          if (j == k) continue;
+          
+          int sum = theList[i] + theList[j] + theList[k];
+        
+          if (sum == 2020){
+            index1 = i;
+            index2 = j;
+            index3 = k;
+            foundit = true;
+            break;
+          }
+        }
+      }
+      if (foundit) break;
+    }
+    
+    var tall1 = theList[index1];
+    var tall2 = theList[index2];
+    var tall3 = theList[index3];
+    
+    Console.WriteLine(tall1);
+    Console.WriteLine(tall2);
+    Console.WriteLine(tall3);
+    Console.WriteLine(tall1*tall2*tall3);
   }
 }
   
