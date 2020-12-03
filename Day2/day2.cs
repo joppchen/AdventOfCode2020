@@ -18,27 +18,31 @@ class solver {
     var length = pwords.Min.Count;
     int index1;
     int count = 0;
+    int validPasswords = 0;
     
     for (int i = 0; i < length; i++){
-      // Lag rutine som finner antall bokstaver i passord, kan bruke dette med start og stopp:
-      //index1 = pwords.Password[i].IndexOf(pwords.Letter[i]);
-      //Console.WriteLine($"index1: {index1}");
       
       count = countTextsInString(pwords.Password[i], pwords.Letter[i], count);
       Console.WriteLine($"Password: {pwords.Password[i]}");
-      Console.WriteLine($"Letter: {pwords.Letter[i]}");
-      Console.WriteLine($"count: {count}");
+      //Console.WriteLine($"Letter: {pwords.Letter[i]}");
+      //Console.WriteLine($"count: {count}");
+      
+      if (count >= pwords.Min[i] && count <= pwords.Max[i]){
+        Console.WriteLine("Valid password!");
+        validPasswords += 1;
+      }
+      else Console.WriteLine("Invalid password!");
+      
       count = 0;
     }
+    
+    Console.WriteLine($"Valid passwords: {validPasswords}");
   }
   
   private int countTextsInString(string str, string text, int count, int start = 0){
-      //int count = 0;
-      //Console.WriteLine(str);
-      //Console.WriteLine(text);
-      //Console.WriteLine(count);
+    
       int index = str.IndexOf(text, start);
-      //Console.WriteLine(index);
+      
       if (index > -1) {
         count += countTextsInString(str, text, count, index+1) + 1;
       }
