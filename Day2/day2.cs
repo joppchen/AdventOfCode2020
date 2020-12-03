@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace day2{
 class Main {
@@ -10,6 +11,17 @@ class Main {
       passwords testPwords = new passwords(examplePwords.min, examplePwords.max, examplePwords.letter, examplePwords.password);
       var solver = new solver();
       solver.task1(testPwords);
+      
+      string str = "1-3 a: abcde";
+      char[] separators = {'-', ' ', ':'};
+      string[] words = str.Split(separators, StringSplitOptions.RemoveEmptyEntries);
+      
+      var wordList = new List<string>();
+      wordList = words.ToList();
+      
+      foreach (string word in words){
+        Console.WriteLine(word);
+      }
   }
 }
 
@@ -73,5 +85,13 @@ static class examplePwords{
 //1-3 a: abcde
 //1-3 b: cdefg
 //2-9 c: ccccccccc
+}
+
+static class allPasswords{
+  public static List<string> pwords = new List<string>(){
+    
+  };
+  
+  
 }
 }
