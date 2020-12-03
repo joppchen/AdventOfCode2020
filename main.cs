@@ -7,10 +7,10 @@ class MainClass {
     
     //Day 1
     var day1 = new day1.Main();
-    day1.solve();
+    //day1.solve();
     
     //Day 2
-    //var day2 = new day2.Day2();
-    //day2.solve();
+    var day2 = new day2.Main();
+    day2.solve();
   }
 }
