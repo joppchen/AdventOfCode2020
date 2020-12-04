@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
 
 namespace day2{
 class Main {
@@ -22,6 +23,19 @@ class Main {
       foreach (string word in words){
         Console.WriteLine(word);
       }
+      
+      string textFile ="Day2/input.txt";
+      if (File.Exists(textFile)){
+        Console.WriteLine("Fant filen.");
+        string[] lines = File.ReadAllLines(textFile);
+        //foreach (string line in lines){
+          //Console.WriteLine(line);
+        //}
+      }
+      else {
+        Console.WriteLine("Fant IKKE filen");
+      }
+        
   }
 }
 
@@ -34,7 +48,7 @@ class solver {
     
     for (int i = 0; i < length; i++){
       
-      count = countTextsInString(pwords.Password[i], pwords.Letter[i], count);
+      count = countTextsInString(pwords.Password[i], pwords.Letter[i]);
       Console.WriteLine($"Password: {pwords.Password[i]}");
       //Console.WriteLine($"Letter: {pwords.Letter[i]}");
       //Console.WriteLine($"count: {count}");
@@ -51,15 +65,12 @@ class solver {
     Console.WriteLine($"Valid passwords: {validPasswords}");
   }
   
-  private int countTextsInString(string str, string text, int count, int start = 0){
+  private int countTextsInString(string str, string text, int start = 0){
     
       int index = str.IndexOf(text, start);
       
-      if (index > -1) {
-        count += countTextsInString(str, text, count, index+1) + 1;
-      }
-      return count;
-  }
+      if (index < 0) return 0;
+      return 1 + countTextsInString(str, text, index+1);
 }
 
 class passwords{
