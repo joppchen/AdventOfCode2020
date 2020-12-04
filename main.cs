@@ -14,7 +14,11 @@ class MainClass {
     //day2.solve();
     
     //Day 3
-    var day3 = new day3.Main();
-    day3.solve();
+    //var day3 = new day3.Main();
+    //day3.solve();
+    
+    //Day 3
+    var day4 = new day4.Main();
+    day4.solve();
   }
 }
