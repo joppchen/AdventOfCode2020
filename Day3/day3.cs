@@ -10,8 +10,8 @@ class Main {
       
       var solver = new solver();
       
-      //string textFile ="Day3/input.txt";
-      string textFile ="Day3/inputExample.txt";
+      string textFile ="Day3/input.txt";
+      //string textFile ="Day3/inputExample.txt";
 
       if (File.Exists(textFile)){
         string[] lines = File.ReadAllLines(textFile);
@@ -56,7 +56,7 @@ class solver {
       col += right;
       
       // Check if inside map
-      if (col > width){
+      if (col >= width){
         col = col - width;
       }
       if (row > height - 1){
@@ -64,10 +64,10 @@ class solver {
       }
       
       // Sjekk for tre
-      Console.WriteLine(map[row]);
-      Console.WriteLine(row);
-      Console.WriteLine(col);
-      Console.WriteLine(map[row][col]);
+      //Console.WriteLine(map[row]);
+      //Console.WriteLine(row);
+      //Console.WriteLine(col);
+      //Console.WriteLine(map[row][col]);
       if (map[row][col].ToString().Equals(tree)){
         treeCount += 1;
       }
