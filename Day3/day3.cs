@@ -10,8 +10,8 @@ class Main {
       
       var solver = new solver();
       
-      //string textFile ="Day3/input.txt";
-      string textFile ="Day3/inputExample.txt";
+      string textFile ="Day3/input.txt";
+      //string textFile ="Day3/inputExample.txt";
 
       if (File.Exists(textFile)){
         string[] lines = File.ReadAllLines(textFile);
@@ -19,10 +19,10 @@ class Main {
         Console.WriteLine(line);
       }
         
-        var route = (a: 1, right: 3);
+        var route = (1, 3);
       
-        var count = solver.task1(lines, route);
-        //solver.task2(lines);
+        //var count = solver.task1(lines, route);
+        solver.task2(lines);
       }
       else {
         Console.WriteLine("Fant IKKE filen");
@@ -75,51 +75,28 @@ class solver {
   }
   
   public void task2(string[] map){
-    int height = map.Length;
-    int width = map[0].Length;
+    var routes = new List<(int down, int right)>(){
+      (1, 1),
+      (1, 3),
+      (1, 5),
+      (1, 7),
+      (2, 1)
+    };
     
-    int row0 = 0;
-    int col0 = 0;
-    int down = 1;
-    int right = 3;
-    
-    int movesToBottom = (height-1)/down;
-    int minCanvasWidth = movesToBottom * right;
-    int mapsToAdd = (int)(minCanvasWidth / width);
-    Console.WriteLine(mapsToAdd);
-    
-    // Move in map:
-    // Hopp ned og bort til jeg når bunnen
-    // registrer hvis tre for hvert Hopp
-    // hvis utenfor kartet, fortsett fra andre siden (infinite BC)
-    int row = 0;
-    int col = 0;
-    int move = 0;
-    string tree = "#";
-    int treeCount = 0;
-    while (move < movesToBottom){
-      row += down;
-      col += right;
-      
-      // Check if inside map
-      if (col >= width){
-        col = col - width;
-      }
-      if (row > height - 1){
-        break;
-      }
-      
-      // Sjekk for tre
-      //Console.WriteLine(map[row]);
-      //Console.WriteLine(row);
-      //Console.WriteLine(col);
-      //Console.WriteLine(map[row][col]);
-      if (map[row][col].ToString().Equals(tree)){
-        treeCount += 1;
-      }
-      
+    var count = 0;
+    var treeCount = 0;
+    long product = 1;
+    foreach (var route in routes){
+      count = task1(map, route);
+      //Console.WriteLine(count);
+      treeCount += count;
+      //Console.WriteLine(treeCount);
+      product = product * (long)count;
+      //Console.WriteLine(product);
     }
+    
     Console.WriteLine($"Tree count: {treeCount}");
+    Console.WriteLine($"Product: {product}");
   }
 }
 
