@@ -10,15 +10,20 @@ class Main {
       
       var solver = new solver();
       
-      string textFile ="Day3/input.txt";
-      //string textFile ="Day3/inputExample.txt";
+      //string textFile ="Day3/input.txt";
+      string textFile ="Day3/inputExample.txt";
 
       if (File.Exists(textFile)){
         string[] lines = File.ReadAllLines(textFile);
       foreach (string line in lines){
         Console.WriteLine(line);
       }
-        solver.task1(lines);
+        
+        Tuple<int, int> route1 = new Tuple<int, int>(1, 3);
+        var route = (a: 1, right: 3);
+        Console.WriteLine(route.right);
+      
+        solver.task1(lines, route);
         //solver.task2(lines);
       }
       else {
@@ -28,7 +33,59 @@ class Main {
 }
 
 class solver {
-  public void task1(string[] map){
+  public void task1(string[] map, (int down, int right) route){
+    int down = 1;
+    int right = 3;
+    Console.WriteLine(route);
+    Console.WriteLine(route.down);
+    Console.WriteLine(route.right);
+    
+    int height = map.Length;
+    int width = map[0].Length;
+    
+    int row0 = 0;
+    int col0 = 0;
+    
+    int movesToBottom = (height-1)/down;
+    int minCanvasWidth = movesToBottom * right;
+    int mapsToAdd = (int)(minCanvasWidth / width);
+    Console.WriteLine(mapsToAdd);
+    
+    // Move in map:
+    // Hopp ned og bort til jeg når bunnen
+    // registrer hvis tre for hvert Hopp
+    // hvis utenfor kartet, fortsett fra andre siden (infinite BC)
+    int row = 0;
+    int col = 0;
+    int move = 0;
+    string tree = "#";
+    int treeCount = 0;
+    while (move < movesToBottom){
+      row += down;
+      col += right;
+      
+      // Check if inside map
+      if (col >= width){
+        col = col - width;
+      }
+      if (row > height - 1){
+        break;
+      }
+      
+      // Sjekk for tre
+      //Console.WriteLine(map[row]);
+      //Console.WriteLine(row);
+      //Console.WriteLine(col);
+      //Console.WriteLine(map[row][col]);
+      if (map[row][col].ToString().Equals(tree)){
+        treeCount += 1;
+      }
+      
+    }
+    Console.WriteLine($"Tree count: {treeCount}");
+  }
+  
+  public void task2(string[] map){
     int height = map.Length;
     int width = map[0].Length;
     
