@@ -6,7 +6,7 @@ class MainClass {
     Console.WriteLine ("Hello Advent of Code");
     
     //Day 1
-    var day1 = new day1.Main();
+    //var day1 = new day1.Main();
     //day1.solve();
     
     //Day 2
