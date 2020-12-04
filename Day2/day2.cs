@@ -14,10 +14,8 @@ class Main {
       //string textFile ="Day2/inputExample.txt";
       if (File.Exists(textFile)){
         string[] lines = File.ReadAllLines(textFile);
-        //foreach (string line in lines){
-          //Console.WriteLine(line);
-        //}
-        solver.task1(lines);
+        //solver.task1(lines);
+        solver.task2(lines);
       }
       else {
         Console.WriteLine("Fant IKKE filen");
@@ -58,6 +56,40 @@ class solver {
       //else Console.WriteLine("Invalid password!");
       
       count = 0;
+    }
+    
+    Console.WriteLine($"Valid passwords: {validPasswords}");
+  }
+  
+  public void task2(string[] pwords){
+    var length = pwords.Length;
+    int count = 0;
+    int validPasswords = 0;
+    
+    string[] words;
+    char[] separators = {'-', ' ', ':'};
+    
+    int pos1;
+    int pos2;
+    string letter;
+    string pword;
+    
+    for (int i = 0; i < length; i++){
+      words = pwords[i].Split(separators, StringSplitOptions.RemoveEmptyEntries);
+      
+      pos1 = int.Parse(words[0]) - 1;
+      pos2 = int.Parse(words[1]) - 1;
+      letter = words[2];
+      pword = words[3];
+      
+      int counter = 0;
+      
+      if (pos2 <= pword.Length){
+        if (letter.Equals(pword[pos1].ToString())) counter += 1;
+        if (letter.Equals(pword[pos2].ToString())) counter += 1;
+      
+        if (counter == 1) validPasswords += 1;
+      }
     }
     
     Console.WriteLine($"Valid passwords: {validPasswords}");
