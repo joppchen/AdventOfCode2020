@@ -18,8 +18,6 @@ class Main {
       foreach (string line in lines){
         Console.WriteLine(line);
       }
-        
-        var route = (1, 3);
       
         //var count = solver.task1(lines, route);
         solver.task2(lines);
@@ -37,9 +35,6 @@ class solver {
     
     int height = map.Length;
     int width = map[0].Length;
-    
-    int row0 = 0;
-    int col0 = 0;
     
     int movesToBottom = (height-1)/down;
     int minCanvasWidth = movesToBottom * right;

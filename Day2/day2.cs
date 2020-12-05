@@ -63,7 +63,6 @@ class solver {
   
   public void task2(string[] pwords){
     var length = pwords.Length;
-    int count = 0;
     int validPasswords = 0;
     
     string[] words;
