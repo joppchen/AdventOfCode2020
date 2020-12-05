@@ -19,6 +19,7 @@ class Main {
         Console.WriteLine(line);
       }
       
+        //var route = (1, 3);
         //var count = solver.task1(lines, route);
         solver.task2(lines);
       }
