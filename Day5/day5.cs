@@ -33,6 +33,7 @@ class solver {
     var allRows = (low: 0, high: 128);
     var allCols = (low: 0, high: 7);
     var highestSeatID = 0;
+    var seatIDs = new List<int>();
     
     foreach (var bsp in BSPs){
       
@@ -46,7 +47,6 @@ class solver {
           rowRng = upperHalf(rowRng);
         }
       }
-      //Console.WriteLine(rowRng);
       
       var colRng = allCols;
       for (int i = 7; i < 10; i++){
@@ -58,14 +58,24 @@ class solver {
           colRng = upperHalf(colRng);
         }
       }
-      //Console.WriteLine(colRng);
       
       var seatID = rowRng.low * 8 + colRng.low;
-      //Console.WriteLine(seatID);
       
+      seatIDs.Add(seatID);
       if (seatID > highestSeatID) highestSeatID = seatID;
     }
-    Console.WriteLine(highestSeatID);
+    Console.WriteLine($"Highest seat ID: {highestSeatID}");
+    
+    seatIDs.Sort();
+    for (var i = 0; i < seatIDs.Count-1; i++){
+      if (seatIDs[i+1] - seatIDs[i] > 1){
+        Console.WriteLine(seatIDs[i]);
+        Console.WriteLine(seatIDs[i+1]);
+        var mySeat = (seatIDs[i] + seatIDs[i+1])/2;
+        Console.WriteLine($"My seat: {mySeat}");
+        break;
+      }
+    }
   }
   
   private (int low, int high) lowerHalf((int low, int high) range){
