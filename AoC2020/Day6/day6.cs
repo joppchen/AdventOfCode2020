@@ -22,8 +22,8 @@ namespace AoC2020.Day6
                   Console.WriteLine(line);
                 }*/
 
-                solver.Task1(lines);
-                //solver.task2(lines);
+                //Solver.Task1(lines);
+                Solver.Task2(lines);
             }
             else
             {
