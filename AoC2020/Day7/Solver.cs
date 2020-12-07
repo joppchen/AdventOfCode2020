@@ -1,15 +1,35 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Xml.XPath;
 
 namespace AoC2020.Day7
 {
     internal class Solver
     {
         public static void Task1(string[] rules)
+        {
+            var bags = BagsFromRules(rules);
+
+            const string myBag = "shiny gold";
+            var bagsFound = FindBagInBags(myBag, bags);
+
+            bagsFound.RemoveDuplicates();
+
+            Console.WriteLine(bagsFound.Count);
+        }
+
+        public static void Task2(string[] rules)
+        {
+            var bags = BagsFromRules(rules);
+
+            const string myBag = "shiny gold";
+
+            var bagsFound = FindBagsInBag(myBag, bags); // Includes myBag, exclude it from the count
+
+            Console.WriteLine(bagsFound.Count - 1);
+        }
+
+        private static List<Bag> BagsFromRules(string[] rules)
         {
             var bags = new List<Bag>();
 
@@ -34,12 +54,7 @@ namespace AoC2020.Day7
                 }
             }
 
-            const string myBag = "shiny gold";
-            var bagsFound = FindBagInBags(myBag, bags);
-
-            bagsFound.RemoveDuplicates();
-
-            Console.WriteLine(bagsFound.Count);
+            return bags;
         }
 
         private static List<Bag> FindBagInBags(string goal, List<Bag> bags)
@@ -54,6 +69,25 @@ namespace AoC2020.Day7
             foreach (var bag in bagsFound) validBags.AddRange(FindBagInBags(bag.Colour, bags));
 
             return validBags;
+        }
+
+        private static List<Bag> FindBagsInBag(string myBag, List<Bag> bags)
+        {
+            var bagsFound = bags.Where(item => item.Colour.Equals(myBag)).ToList();
+
+            var contentsFound = bagsFound[0].Contents;
+
+            if (contentsFound.Count <= 0) return bagsFound;
+
+            foreach (var (key, value) in contentsFound)
+            {
+                for (var i = 0; i < value; i++)
+                {
+                    bagsFound.AddRange(FindBagsInBag(key, bags));
+                }
+            }
+
+            return bagsFound;
         }
     }
 

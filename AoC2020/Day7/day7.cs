@@ -14,6 +14,7 @@ namespace AoC2020.Day7
             Console.WriteLine(Directory.GetCurrentDirectory());
             const string textFile = "../../../Day7/input.txt";
             //const string textFile = "../../../Day7/inputExample.txt";
+            //const string textFile = "../../../Day7/inputExample2.txt";
 
             if (File.Exists(textFile))
             {
@@ -22,8 +23,8 @@ namespace AoC2020.Day7
                   Console.WriteLine(line);
                 }*/
 
-                Solver.Task1(lines);
-                //Solver.Task2(lines);
+                //Solver.Task1(lines);
+                Solver.Task2(lines);
             }
             else
             {
