@@ -12,8 +12,8 @@ namespace AoC2020.Day7
             var solver = new Solver();
 
             Console.WriteLine(Directory.GetCurrentDirectory());
-            //const string textFile = "../../../Day7/input.txt";
-            const string textFile = "../../../Day7/inputExample.txt";
+            const string textFile = "../../../Day7/input.txt";
+            //const string textFile = "../../../Day7/inputExample.txt";
 
             if (File.Exists(textFile))
             {

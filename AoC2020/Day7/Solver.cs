@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Xml.XPath;
 
 namespace AoC2020.Day7
@@ -9,61 +11,48 @@ namespace AoC2020.Day7
     {
         public static void Task1(string[] rules)
         {
-            //var groups = rules.Split("\r\n\r\n", StringSplitOptions.RemoveEmptyEntries);
-            //Console.WriteLine(groups[1]);
+            var bags = new List<Bag>();
 
             foreach (var rule in rules)
             {
-                Console.WriteLine(rule);
+                //var colour = rule.Before(" bag");
+                var separator = new[] {" bags", " bag", " contain ", ", ", "."};
+                var colourAndContents = rule.Split(separator, StringSplitOptions.RemoveEmptyEntries);
+
+                // Record colour of bag
+                var colour = colourAndContents[0];
+                bags.Add(new Bag(colour));
+
+                // Record contents of bag
+                if (colourAndContents[1].Contains("no other")) continue;
+                for (var i = 1; i < colourAndContents.Length; i++)
+                {
+                    // Taking a shortcut here assuming only 1-digit number of contents
+                    // TODO: How to handle two-digit number of contents? This whole thing should probably be replaced by regex
+                    bags.Last().Contents.Add(colourAndContents[i].Substring(2),
+                        int.Parse(colourAndContents[i][0].ToString()));
+                }
             }
 
-            var bags = new List<Bag>();
-            // For each rule:
-            bags.Add(new Bag("light red"));
-            bags[0].Contents.Add("bright white", 1);
-            bags[0].Contents.Add("muted yellow", 2);
-            
-            bags.Add(new Bag("dark orange"));
-            bags[1].Contents.Add("bright white", 3);
-            bags[1].Contents.Add("muted yellow", 4);
-            
-            bags.Add(new Bag("bright white"));
-            bags[2].Contents.Add("shiny gold", 1);
-            
-            bags.Add(new Bag("muted yellow"));
-            bags[3].Contents.Add("shiny gold", 2);
-            bags[3].Contents.Add("faded blue", 9);
-            
-            bags.Add(new Bag("shiny gold"));
-            bags[4].Contents.Add("dark olive", 1);
-            bags[4].Contents.Add("vibrant plum", 2);
-
-            var myBag = "shiny gold";
+            const string myBag = "shiny gold";
             var bagsFound = FindBagInBags(myBag, bags);
-            
-            
-            ICollection<Bag> withoutDuplicates = new HashSet<Bag>(bagsFound);
-            bagsFound.RemoveDuplicates<Bag>();
-            
-            Console.WriteLine(withoutDuplicates.Count);
+
+            bagsFound.RemoveDuplicates();
+
             Console.WriteLine(bagsFound.Count);
         }
 
         private static List<Bag> FindBagInBags(string goal, List<Bag> bags)
         {
-            var validBags = new List<Bag>();
-            
             var bagsFound = bags.Where(item => item.Contents.ContainsKey(goal)).ToList();
-            //validBags = bagsFound;
+
+            var validBags = new List<Bag>();
             validBags.AddRange(bagsFound);
+
             if (bagsFound.Count <= 0) return bagsFound;
-            
-            foreach (var bag in bagsFound)
-            {
-                //hits += FindBagInBags(bag.Colour, bags);
-                validBags.AddRange(FindBagInBags(bag.Colour, bags));
-                
-            }
+
+            foreach (var bag in bagsFound) validBags.AddRange(FindBagInBags(bag.Colour, bags));
+
             return validBags;
         }
     }
@@ -83,18 +72,10 @@ namespace AoC2020.Day7
 
     internal static class Extensions
     {
-        public static void Populate<T>(this T[] arr, T value)
-        {
-            for (var i = 0; i < arr.Length; ++i)
-            {
-                arr[i] = value;
-            }
-        }
-        
         public static void RemoveDuplicates<T>(this List<T> list)
         {
-            var enumerable = (IEnumerable<T>)list;
-            
+            var enumerable = (IEnumerable<T>) list;
+
             ICollection<T> withoutDuplicates = new HashSet<T>(enumerable);
 
             list.Clear();
