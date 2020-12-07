@@ -10,11 +10,11 @@ namespace AoC2020.testTrampoline
         {
             Console.WriteLine("Test Trampoline [https://thomaslevesque.com/2011/09/02/tail-recursion-in-c/]:");
 
-            //var result = Factorial(7500);
-            //var result = Factorial2(6500, 1);
+            //var result = Factorial(7500); // Breaks (Stack overflow) at 8000
+            //var result = Factorial2(6500, 1); // Breaks (Stack overflow) at 7000
 
             Func<int, BigInteger, BigInteger> fact = Trampoline.MakeTrampoline<int, BigInteger, BigInteger>(Factorial3);
-            BigInteger result = fact(500000, 1); // Took about 10 minutes to calculate, but not Stack Overflow!
+            BigInteger result = fact(500000, 1); // Took about 10 minutes to calculate, but no Stack Overflow!
             
             Console.WriteLine(result);
 
