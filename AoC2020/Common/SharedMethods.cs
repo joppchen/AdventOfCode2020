@@ -46,7 +46,7 @@ namespace AoC2020.Common
         /// <param name="arr">Long array in which to sum two and two longs</param>
         /// <param name="goal">Specified number/sum to search for </param>
         /// <returns>Tuple with counters index 1 and index 2 (of the numbers that sum to goal)</returns>
-        internal static (int, int) TwoUniqueNumbersInArrayThatSumTo(long[] arr, long goal)
+        internal static (long, long) TwoUniqueNumbersInArrayThatSumTo(long[] arr, long goal)
         {
             for (var i = 0; i < arr.Length; i++)
             {
@@ -76,12 +76,11 @@ namespace AoC2020.Common
         /// Create a subset from a range of indices
         /// </summary>
         /// <param name="array">Input array</param>
-        /// <param name="index"></param>
         /// <param name="startIndex">Start index of subarray</param>
         /// <param name="length">Length of subarray</param>
         /// <typeparam name="T">Type of array, should work on most types of arrays</typeparam>
         /// <returns>Subset array of 'array'</returns>
-        public static T[] RangeSubset<T>(this T[] array, long[] index, long startIndex, int length)
+        public static T[] RangeSubset<T>(this T[] array, long startIndex, int length)
         {
             var subset = new T[length];
             Array.Copy(array, startIndex, subset, 0, length);
