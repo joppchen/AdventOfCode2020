@@ -13,20 +13,20 @@ namespace AoC2020.Day9
 
             Console.WriteLine(Directory.GetCurrentDirectory());
 
-            //var textFile = $"../../../{folder}/input.txt";
-            var textFile = $"../../../{folder}/inputExample.txt";
+            var textFile = $"../../../{folder}/input.txt";
+            //var textFile = $"../../../{folder}/inputExample.txt";
 
             if (File.Exists(textFile))
             {
                 var lines = File.ReadAllLines(textFile);
-                var integers = SharedMethods.ParseStringArrayToInt(lines);
+                var longs = SharedMethods.ParseStringArrayToLong(lines);
 
-                foreach (var integer in integers)
+                /*foreach (var integer in integers)
                 {
                     Console.WriteLine(integer);
-                }
+                }*/
 
-                Solver.Task1(integers);
+                Solver.Task1(longs);
                 //Solver.Task2(lines);
             }
             else

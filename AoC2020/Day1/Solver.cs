@@ -7,10 +7,10 @@ namespace AoC2020.Day1
     {
         public static void Task1(int[] theList) //Answer: 858496
         {
-            var (tall1, tall2) = SharedMethods.TwoUniqueNumbersInArrayThatSumTo(theList, 2020);
-            Console.WriteLine(tall1);
-            Console.WriteLine(tall2);
-            Console.WriteLine(tall1 * tall2);
+            var (index1, index2) = SharedMethods.TwoUniqueNumbersInArrayThatSumTo(theList, 2020);
+            Console.WriteLine(theList[index1]);
+            Console.WriteLine(theList[index2]);
+            Console.WriteLine(theList[index1] * theList[index2]);
         }
 
         public static void Task2(int[] theList) //Answer: 263819430
