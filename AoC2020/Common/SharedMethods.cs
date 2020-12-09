@@ -29,6 +29,15 @@ namespace AoC2020.Common
 
     internal static class ArrayExtensions
     {
+        // pre-populate array with same value at all indices
+        public static void Populate<T>(this T[] arr, T value)
+        {
+            for (var i = 0; i < arr.Length; ++i)
+            {
+                arr[i] = value;
+            }
+        }
+
         // create a subset from a range of indices
         public static T[] RangeSubset<T>(this T[] array, int startIndex, int length)
         {

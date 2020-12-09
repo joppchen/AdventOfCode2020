@@ -71,15 +71,4 @@ namespace AoC2020.Day6
             Console.WriteLine($"Number of questions to which everyone answered 'yes': {total}");
         }
     }
-
-    internal static class Extension
-    {
-        public static void Populate<T>(this T[] arr, T value)
-        {
-            for (var i = 0; i < arr.Length; ++i)
-            {
-                arr[i] = value;
-            }
-        }
-    }
 }
