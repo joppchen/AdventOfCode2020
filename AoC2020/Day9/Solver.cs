@@ -9,11 +9,6 @@ namespace AoC2020.Day9
         public static void Task1(int[] xmas) // Answer: 
         {
             var preAmbleSize = 5;
-
-            for (var i = preAmbleSize; i < xmas.Length; i++)
-            {
-                
-            }
         }
     }
 }

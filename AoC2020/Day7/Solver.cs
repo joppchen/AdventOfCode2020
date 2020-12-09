@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using AoC2020.Common;
 
 namespace AoC2020.Day7
 {
     internal class Solver
     {
-        public static void Task1(string[] rules)
+        public static void Task1(string[] rules) // Answer: 131
         {
             var bags = BagsFromRules(rules);
 
@@ -18,7 +19,7 @@ namespace AoC2020.Day7
             Console.WriteLine(bagsFound.Count);
         }
 
-        public static void Task2(string[] rules)
+        public static void Task2(string[] rules) // Answer: 11261
         {
             var bags = BagsFromRules(rules);
 
@@ -101,19 +102,6 @@ namespace AoC2020.Day7
         {
             Colour = colour;
             Contents = new Dictionary<string, int>();
-        }
-    }
-
-    internal static class Extensions
-    {
-        public static void RemoveDuplicates<T>(this List<T> list)
-        {
-            var enumerable = (IEnumerable<T>) list;
-
-            ICollection<T> withoutDuplicates = new HashSet<T>(enumerable);
-
-            list.Clear();
-            list.AddRange(withoutDuplicates.ToList());
         }
     }
 }

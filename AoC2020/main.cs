@@ -8,7 +8,7 @@ namespace AoC2020
         {
             Console.WriteLine("Hello Advent of Code");
 
-            Day1.Main.Solve();
+            //Day1.Main.Solve();
 
             //Day2.Main.Solve();
 
@@ -20,7 +20,7 @@ namespace AoC2020
 
             //Day6.Main.Solve();
 
-            //Day7.Main.Solve();
+            Day7.Main.Solve();
 
             //Day8.Main.Solve();
 
