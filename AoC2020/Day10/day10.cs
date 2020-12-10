@@ -11,7 +11,7 @@ namespace AoC2020.Day10
             Console.WriteLine($"Day 10:");
             const string folder = "Day10";
 
-            Console.WriteLine(Directory.GetCurrentDirectory());
+            //Console.WriteLine(Directory.GetCurrentDirectory());
 
             var textFile = $"../../../{folder}/input.txt";
             //var textFile = $"../../../{folder}/inputExample.txt";
@@ -20,15 +20,15 @@ namespace AoC2020.Day10
             if (File.Exists(textFile))
             {
                 var lines = File.ReadAllLines(textFile);
-                var longs = SharedMethods.ParseStringArrayToInt(lines);
+                var longs = SharedMethods.ParseStringArrayToLong(lines);
 
-                /*foreach (var integer in integers)
+                /*foreach (var longInt in longs)
                 {
-                    Console.WriteLine(integer);
+                    Console.WriteLine(longInt);
                 }*/
 
                 Solver.Task1(longs);
-                //Solver.Task2(longs);
+                Solver.Task2(longs);
             }
             else
             {
