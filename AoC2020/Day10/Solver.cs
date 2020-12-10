@@ -17,7 +17,7 @@ namespace AoC2020.Day10
             Console.WriteLine($"Task 1: {sum1 * sum3}");
         }
 
-        public static void Task2(long[] adapters)
+        public static void Task2(long[] adapters) // Answer: 148 098 383 347 712
         {
             var allAdapters = adapters.Append(adapters.Max() + 3).Append(0);
             var sortedAdapters = allAdapters.ToImmutableSortedSet(); //Assuming all adapters are unique

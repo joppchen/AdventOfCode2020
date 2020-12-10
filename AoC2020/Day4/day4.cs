@@ -12,13 +12,15 @@ namespace AoC2020.Day4
 
             var textFile = $"../../../{folder}/input.txt";
             //var textFile = $"../../../{folder}/inputExample.txt";
+            //var textFile = $"../../../{folder}/invalids.txt";
+            //var textFile = $"../../../{folder}/valids.txt";
 
             if (File.Exists(textFile))
             {
                 var text = File.ReadAllText(textFile);
-                Console.WriteLine(text.Length);
-                Solver.Task1(text);
-                //solver.task2(text);
+                //Console.WriteLine(text.Length);
+                //Solver.Task1(text);
+                Solver.Task2(text);
             }
             else
             {
