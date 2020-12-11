@@ -19,10 +19,10 @@ namespace AoC2020.Day11
                 var lines = File.ReadAllLines(textFile);
                 //var integers = SharedMethods.ParseStringArrayToInt(lines);
 
-                foreach (var line in lines)
+                /*foreach (var line in lines)
                 {
                     Console.WriteLine(line);
-                }
+                }*/
 
                 Solver.Task1(lines);
                 //Solver.Task2(longs);
