@@ -25,7 +25,7 @@ namespace AoC2020.Day11
                 }*/
 
                 Solver.Task1(lines);
-                //Solver.Task2(longs);
+                //Solver.Task2(lines);
             }
             else
             {

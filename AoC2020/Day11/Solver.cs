@@ -6,18 +6,25 @@ namespace AoC2020.Day11
 {
     internal static class Solver
     {
+        private const string Empty = "L";
+        private const string Occupied = "#";
+        private const string Floor = ".";
+
         public static void Task1(string[] layout) // Answer: 2281
         {
-            var occupiedSeats = OccupiedSeats(layout);
+            var occupiedSeats = TotalNoOfOccupiedSeats(layout, NoOfOccupiedSeatsTask1, RulesTask1);
             Console.WriteLine($"Task 1: Occupied seats: {occupiedSeats}");
         }
 
-        private static int OccupiedSeats(string[] layout)
+        public static void Task2(string[] layout)
         {
-            const string empty = "L";
-            const string occupied = "#";
-            const string floor = ".";
+            var occupiedSeats = TotalNoOfOccupiedSeats(layout, NoOfOccupiedSeatsTask2, RulesTask2);
+            Console.WriteLine($"Task 2: Occupied seats: {occupiedSeats}");
+        }
 
+        private static int TotalNoOfOccupiedSeats(string[] layout,
+            Func<string[], (int, int), int> surroundingOccupiedSeats, Func<char, int, char> Rules)
+        {
             var workLayout = new string[layout.Length];
             layout.CopyTo(workLayout, 0);
 
@@ -28,33 +35,57 @@ namespace AoC2020.Day11
             {
                 prevOccupiedSeats = occupiedSeats;
 
-                for (var i = 0; i < layout.Length; i++)
-                {
-                    var newLine = layout[i].ToCharArray();
-                    for (var j = 0; j < layout[0].Length; j++)
-                    {
-                        if (layout[i][j].ToString().Equals(floor)) continue;
+                workLayout = UpdateLayout(layout, surroundingOccupiedSeats, Rules);
 
-                        var num = NoOfOccupiedAdjacentSeats(layout, (i, j));
-
-                        if (num == 0 && layout[i][j].ToString() == empty) newLine[j] = occupied.ToCharArray()[0];
-                        if (num >= 4 && layout[i][j].ToString() == occupied) newLine[j] = empty.ToCharArray()[0];
-                    }
-
-                    workLayout[i] = string.Concat(newLine);
-                }
-
-                occupiedSeats = workLayout.Sum(s => s.Count(ch => ch.ToString().Equals(occupied)));
+                occupiedSeats = workLayout.Sum(s => s.Count(ch => ch.ToString().Equals(Occupied)));
                 workLayout.CopyTo(layout, 0);
             }
 
             return occupiedSeats;
         }
 
-        private static int NoOfOccupiedAdjacentSeats(IReadOnlyList<string> layout, (int, int) position)
+        private static string[] UpdateLayout(string[] layout, Func<string[], (int, int), int> surroundingOccupiedSeats,
+            Func<char, int, char> rules)
+        {
+            var workLayout = new string[layout.Length];
+
+            for (var i = 0; i < layout.Length; i++)
+            {
+                var newLine = layout[i].ToCharArray();
+                for (var j = 0; j < layout[0].Length; j++)
+                {
+                    if (layout[i][j].ToString().Equals(Floor)) continue;
+
+                    newLine[j] = rules(layout[i][j], surroundingOccupiedSeats(layout, (i, j)));
+                }
+
+                workLayout[i] = string.Concat(newLine);
+            }
+
+            return workLayout;
+        }
+
+        private static char RulesTask1(char key, int occupiedSeats)
+        {
+            var newKey = key;
+
+            if (occupiedSeats == 0 && key.ToString() == Empty) newKey = Occupied.ToCharArray()[0];
+            if (occupiedSeats >= 4 && key.ToString() == Occupied) newKey = Empty.ToCharArray()[0];
+            return newKey;
+        }
+
+        private static char RulesTask2(char key, int occupiedSeats)
+        {
+            var newKey = key;
+
+            if (occupiedSeats == 0 && key.ToString() == Empty) newKey = Occupied.ToCharArray()[0];
+            if (occupiedSeats >= 5 && key.ToString() == Occupied) newKey = Empty.ToCharArray()[0];
+            return newKey;
+        }
+
+        private static int NoOfOccupiedSeatsTask1(string[] layout, (int, int) position)
         {
             var count = 0;
-            const string occupied = "#";
 
             var iLow = 1;
             var iHigh = 1;
@@ -63,7 +94,7 @@ namespace AoC2020.Day11
 
             var (row, col) = position;
             if (row == 0) iLow = 0;
-            if (row == layout.Count - 1) iHigh = 0;
+            if (row == layout.Length - 1) iHigh = 0;
             if (col == 0) jLow = 0;
             if (col == layout[0].Length - 1) jHigh = 0;
 
@@ -72,11 +103,16 @@ namespace AoC2020.Day11
                 for (var j = col - jLow; j < col + jHigh + 1; j++)
                 {
                     if (i == row && j == col) continue;
-                    if (layout[i][j].ToString().Equals(occupied)) count += 1;
+                    if (layout[i][j].ToString().Equals(Occupied)) count += 1;
                 }
             }
 
             return count;
+        }
+
+        private static int NoOfOccupiedSeatsTask2(string[] layout, (int, int) position)
+        {
+            return 1337; // TODO: implement procedure
         }
     }
 }
