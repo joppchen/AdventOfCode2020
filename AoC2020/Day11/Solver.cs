@@ -146,38 +146,90 @@ namespace AoC2020.Day11
 
             // Check the diagonals
             // Diag 1
-            for (var i = row + 1; i <= rowMax; i++)
+            var iLimit = rowMax;
+            var jLimit = colMax;
+            var rowIn = row;
+            var colIn = col;
+            /*for (var i = rowIn + 1; i <= iLimit; i++)
             {
-                var j = col + (i - row);
-                if (j > colMax) break;
+                var j = colIn + (i - rowIn);
+                if (j > jLimit) break;
                 if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }
+            }*/
+            Diagonal(layout, row, rowMax, col, colMax, ref count);
 
             // Diag 2
-            for (var i = row + 1; i <= rowMax; i++)
+            /*for (var i = row + 1; i <= rowMax; i++)
             {
                 var j = col - (i - row);
                 if (j < 0) break;
                 if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }
+            }*/
+            /*iLimit = rowMax;
+            jLimit = 0;
+            rowIn = row;
+            colIn = -col;
+            for (var i = rowIn + 1; i <= iLimit; i++)
+            {
+                var j = colIn + (i - rowIn);
+                if (j > jLimit) break;
+                if (CountOccupiedSeat(layout, i, -j, ref count)) break;
+            }*/
+            Diagonal(layout, row, rowMax, -col, 0, ref count);
 
             // Diag 3
-            for (var i = row - 1; i >= 0; i--)
+            /*for (var i = row - 1; i >= 0; i--)
             {
                 var j = col - (row - i);
                 if (j < 0) break;
                 if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }
+            }*/
+            /*iLimit = 0;
+            jLimit = 0;
+            rowIn = -row;
+            colIn = -col;
+            for (var i = rowIn + 1; i <= iLimit; i++)
+            {
+                var j = colIn + (i - rowIn);
+                if (j > jLimit) break;
+                if (CountOccupiedSeat(layout, -i, -j, ref count)) break;
+            }*/
+            Diagonal(layout, -row, 0, -col, 0, ref count);
 
             // Diag 4
-            for (var i = row - 1; i >= 0; i--)
+            /*for (var i = row - 1; i >= 0; i--)
             {
                 var j = col + (row - i);
                 if (j > colMax) break;
                 if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }
+            }*/
+            /*iLimit = 0;
+            jLimit = colMax;
+            rowIn = -row;
+            colIn = col;
+            for (var i = rowIn + 1; i <= iLimit; i++)
+            {
+                var j = colIn + (i - rowIn);
+                if (j > jLimit) break;
+                if (CountOccupiedSeat(layout, -i, j, ref count)) break;
+            }*/
+            Diagonal(layout, -row, 0, col, colMax, ref count);
 
             return count;
+        }
+
+        private static void Diagonal(IReadOnlyList<string> layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        {
+            /*if (Math.Sign(row) < 0) rowLimit = 0;
+            if (Math.Sign(row) > 0) rowLimit = layout.Count - 1;
+            if (Math.Sign(col) < 0) colLimit = 0;
+            if (Math.Sign(col) > 0) colLimit = layout[0].Length - 1;*/
+            for (var i = row + 1; i <= rowLimit; i++)
+            {
+                var j = col + (i - row);
+                if (j > colLimit) break;
+                if (CountOccupiedSeat(layout, Math.Sign(row) * i, Math.Sign(col) * j, ref count)) break;
+            }
         }
 
         private static bool CountOccupiedSeat(IReadOnlyList<string> layout, int row, int j, ref int count)
