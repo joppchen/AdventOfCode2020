@@ -29,7 +29,7 @@ namespace AoC2020.Day12
 
                 Solver.Task1(lines);
                 //linesRaw.CopyTo(lines, 0);
-                //Solver.Task2(lines);
+                Solver.Task2(lines);
             }
             else
             {
