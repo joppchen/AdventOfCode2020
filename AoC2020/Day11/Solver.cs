@@ -120,119 +120,96 @@ namespace AoC2020.Day11
 
             // When looking a direction: look all the way till the end until an L or # is hit
 
+            // TODO: Introduce one method for straight check (in same fashion as for diagonal check)
             // Check the row look to the right
-            for (var j = col + 1; j <= colMax; j++)
+            var rowIn = row;
+            var colIn = col;
+            var iLimit = 0;
+            var jLimit = colMax;
+            /*for (var j = colIn + 1; j <= jLimit; j++)
             {
-                if (CountOccupiedSeat(layout, row, j, ref count)) break;
-            }
+                if (OccupiedSeatIsCounted(layout, rowIn, j, ref count)) break;
+            }*/
+            ScanRow(layout, row, 0, col, colMax, ref count);
 
             // Check the row look to the left (count down)
-            for (var j = col - 1; j >= 0; j--)
+            rowIn = row;
+            colIn = -col;
+            /*for (var j = -(colIn + 1); j >= 0; j--)
             {
-                if (CountOccupiedSeat(layout, row, j, ref count)) break;
-            }
+                if (OccupiedSeatIsCounted(layout, row, j, ref count)) break;
+            }*/
+            /*for (var j = colIn + 1; j <= 0; j++)
+            {
+                if (OccupiedSeatIsCounted(layout, rowIn, -j, ref count)) break;
+            }*/
+            ScanRow(layout, row, 0, -col, 0, ref count);
 
             // Check the col look down
-            for (var i = row + 1; i <= rowMax; i++)
+            rowIn = row;
+            colIn = col;
+            /*for (var i = rowIn + 1; i <= rowMax; i++)
             {
-                if (CountOccupiedSeat(layout, i, col, ref count)) break;
-            }
+                if (OccupiedSeatIsCounted(layout, i, colIn, ref count)) break;
+            }*/
+            ScanCol(layout, row, rowMax, col, 0, ref count);
 
             // Check the col look up (count down)
-            for (var i = row - 1; i >= 0; i--)
+            rowIn = -row;
+            colIn = col;
+            /*for (var i = rowIn + 1; i <= 0; i++)
             {
-                if (CountOccupiedSeat(layout, i, col, ref count)) break;
-            }
+                if (OccupiedSeatIsCounted(layout, -i, colIn, ref count)) break;
+            }*/
+            ScanCol(layout, -row, 0, col, 0, ref count);
 
             // Check the diagonals
             // Diag 1
-            var iLimit = rowMax;
-            var jLimit = colMax;
-            var rowIn = row;
-            var colIn = col;
-            /*for (var i = rowIn + 1; i <= iLimit; i++)
-            {
-                var j = colIn + (i - rowIn);
-                if (j > jLimit) break;
-                if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }*/
-            Diagonal(layout, row, rowMax, col, colMax, ref count);
+            ScanDiagonal(layout, row, rowMax, col, colMax, ref count);
 
             // Diag 2
-            /*for (var i = row + 1; i <= rowMax; i++)
-            {
-                var j = col - (i - row);
-                if (j < 0) break;
-                if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }*/
-            /*iLimit = rowMax;
-            jLimit = 0;
-            rowIn = row;
-            colIn = -col;
-            for (var i = rowIn + 1; i <= iLimit; i++)
-            {
-                var j = colIn + (i - rowIn);
-                if (j > jLimit) break;
-                if (CountOccupiedSeat(layout, i, -j, ref count)) break;
-            }*/
-            Diagonal(layout, row, rowMax, -col, 0, ref count);
+            ScanDiagonal(layout, row, rowMax, -col, 0, ref count);
 
             // Diag 3
-            /*for (var i = row - 1; i >= 0; i--)
-            {
-                var j = col - (row - i);
-                if (j < 0) break;
-                if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }*/
-            /*iLimit = 0;
-            jLimit = 0;
-            rowIn = -row;
-            colIn = -col;
-            for (var i = rowIn + 1; i <= iLimit; i++)
-            {
-                var j = colIn + (i - rowIn);
-                if (j > jLimit) break;
-                if (CountOccupiedSeat(layout, -i, -j, ref count)) break;
-            }*/
-            Diagonal(layout, -row, 0, -col, 0, ref count);
+            ScanDiagonal(layout, -row, 0, -col, 0, ref count);
 
             // Diag 4
-            /*for (var i = row - 1; i >= 0; i--)
-            {
-                var j = col + (row - i);
-                if (j > colMax) break;
-                if (CountOccupiedSeat(layout, i, j, ref count)) break;
-            }*/
-            /*iLimit = 0;
-            jLimit = colMax;
-            rowIn = -row;
-            colIn = col;
-            for (var i = rowIn + 1; i <= iLimit; i++)
-            {
-                var j = colIn + (i - rowIn);
-                if (j > jLimit) break;
-                if (CountOccupiedSeat(layout, -i, j, ref count)) break;
-            }*/
-            Diagonal(layout, -row, 0, col, colMax, ref count);
+            ScanDiagonal(layout, -row, 0, col, colMax, ref count);
 
             return count;
         }
 
-        private static void Diagonal(IReadOnlyList<string> layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        private static void ScanRow(string[] layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        {
+            for (var j = col + 1; j <= colLimit; j++)
+            {
+                if (OccupiedSeatIsCounted(layout, row, Math.Sign(col) * j, ref count)) break;
+            }
+        }
+
+        private static void ScanCol(string[] layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        {
+            for (var i = row + 1; i <= rowLimit; i++)
+            {
+                if (OccupiedSeatIsCounted(layout, Math.Sign(row) * i, col, ref count)) break;
+            }
+        }
+
+        private static void ScanDiagonal(IReadOnlyList<string> layout, int row, int rowLimit, int col, int colLimit, ref int count)
         {
             /*if (Math.Sign(row) < 0) rowLimit = 0;
             if (Math.Sign(row) > 0) rowLimit = layout.Count - 1;
             if (Math.Sign(col) < 0) colLimit = 0;
-            if (Math.Sign(col) > 0) colLimit = layout[0].Length - 1;*/
+            if (Math.Sign(col) > 0) colLimit = layout[0].Length - 1;*/ // TODO: deduce limits based on sgn(row) and sgn(col) instead of input arguments to method
             for (var i = row + 1; i <= rowLimit; i++)
             {
                 var j = col + (i - row);
                 if (j > colLimit) break;
-                if (CountOccupiedSeat(layout, Math.Sign(row) * i, Math.Sign(col) * j, ref count)) break;
+                if (OccupiedSeatIsCounted(layout, Math.Sign(row) * i, Math.Sign(col) * j, ref count)) break;
             }
         }
 
-        private static bool CountOccupiedSeat(IReadOnlyList<string> layout, int row, int j, ref int count)
+        private static bool OccupiedSeatIsCounted(IReadOnlyList<string> layout, int row, int j, ref int count)
         {
             if (!EmptyOrOccupied(layout[row][j])) return false;
             if (layout[row][j] == Occupied) count += 1;
