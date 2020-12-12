@@ -120,48 +120,17 @@ namespace AoC2020.Day11
 
             // When looking a direction: look all the way till the end until an L or # is hit
 
-            // TODO: Introduce one method for straight check (in same fashion as for diagonal check)
             // Check the row look to the right
-            var rowIn = row;
-            var colIn = col;
-            var iLimit = 0;
-            var jLimit = colMax;
-            /*for (var j = colIn + 1; j <= jLimit; j++)
-            {
-                if (OccupiedSeatIsCounted(layout, rowIn, j, ref count)) break;
-            }*/
-            ScanRow(layout, row, 0, col, colMax, ref count);
+            ScanRow(layout, row, col, colMax, ref count);
 
             // Check the row look to the left (count down)
-            rowIn = row;
-            colIn = -col;
-            /*for (var j = -(colIn + 1); j >= 0; j--)
-            {
-                if (OccupiedSeatIsCounted(layout, row, j, ref count)) break;
-            }*/
-            /*for (var j = colIn + 1; j <= 0; j++)
-            {
-                if (OccupiedSeatIsCounted(layout, rowIn, -j, ref count)) break;
-            }*/
-            ScanRow(layout, row, 0, -col, 0, ref count);
+            ScanRow(layout, row, -col, 0, ref count);
 
             // Check the col look down
-            rowIn = row;
-            colIn = col;
-            /*for (var i = rowIn + 1; i <= rowMax; i++)
-            {
-                if (OccupiedSeatIsCounted(layout, i, colIn, ref count)) break;
-            }*/
-            ScanCol(layout, row, rowMax, col, 0, ref count);
+            ScanCol(layout, row, rowMax, col, ref count);
 
             // Check the col look up (count down)
-            rowIn = -row;
-            colIn = col;
-            /*for (var i = rowIn + 1; i <= 0; i++)
-            {
-                if (OccupiedSeatIsCounted(layout, -i, colIn, ref count)) break;
-            }*/
-            ScanCol(layout, -row, 0, col, 0, ref count);
+            ScanCol(layout, -row, 0, col, ref count);
 
             // Check the diagonals
             // Diag 1
@@ -179,7 +148,7 @@ namespace AoC2020.Day11
             return count;
         }
 
-        private static void ScanRow(string[] layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        private static void ScanRow(IReadOnlyList<string> layout, int row, int col, int colLimit, ref int count)
         {
             for (var j = col + 1; j <= colLimit; j++)
             {
@@ -187,7 +156,7 @@ namespace AoC2020.Day11
             }
         }
 
-        private static void ScanCol(string[] layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        private static void ScanCol(IReadOnlyList<string> layout, int row, int rowLimit, int col, ref int count)
         {
             for (var i = row + 1; i <= rowLimit; i++)
             {
@@ -195,12 +164,14 @@ namespace AoC2020.Day11
             }
         }
 
-        private static void ScanDiagonal(IReadOnlyList<string> layout, int row, int rowLimit, int col, int colLimit, ref int count)
+        private static void ScanDiagonal(IReadOnlyList<string> layout, int row, int rowLimit, int col, int colLimit,
+            ref int count)
         {
             /*if (Math.Sign(row) < 0) rowLimit = 0;
             if (Math.Sign(row) > 0) rowLimit = layout.Count - 1;
             if (Math.Sign(col) < 0) colLimit = 0;
-            if (Math.Sign(col) > 0) colLimit = layout[0].Length - 1;*/ // TODO: deduce limits based on sgn(row) and sgn(col) instead of input arguments to method
+            if (Math.Sign(col) > 0) colLimit = layout[0].Length - 1;*/
+            // TODO: deduce limits based on sgn(row) and sgn(col) instead of input arguments to method
             for (var i = row + 1; i <= rowLimit; i++)
             {
                 var j = col + (i - row);
