@@ -17,7 +17,7 @@ namespace AoC2020.Day13
             //var textFile = $"../../../{folder}/example1.txt";
             //var textFile = $"../../../{folder}/example5.txt";
 
-            if (File.Exists(textFile))//
+            if (File.Exists(textFile)) //
             {
                 var lines = File.ReadAllLines(textFile);
                 //var integers = SharedMethods.ParseStringArrayToInt(lines);
@@ -33,6 +33,7 @@ namespace AoC2020.Day13
                 //Solver.Task1(lines);
                 //linesRaw.CopyTo(lines, 0);
                 Solver.Task2(lines);
+                //Solver.Task2B(lines);
             }
             else
             {
