@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 
 namespace AoC2020.Common
 {
@@ -58,6 +59,31 @@ namespace AoC2020.Common
             }
 
             return (-1, -1);
+        }
+
+        // The modulus operation '%' behaves funky for negative numbers. This returns more expected values
+        internal static long Mod(long a, long n)
+        {
+            var result = a % n;
+            if ((result < 0 && n > 0) || (result > 0 && n < 0))
+            {
+                result += n;
+            }
+
+            return result;
+        }
+
+        // The modulus operation '%' behaves funky for negative numbers. This returns more expected values
+        // BigInteger needed for DAy 13 Task 2
+        internal static long ModBig(BigInteger a, BigInteger n)
+        {
+            var result = a % n;
+            if ((result < 0 && n > 0) || (result > 0 && n < 0))
+            {
+                result += n;
+            }
+
+            return (long) result;
         }
     }
 
