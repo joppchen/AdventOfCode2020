@@ -11,9 +11,13 @@ namespace AoC2020.Day13
             const string folder = "Day13";
             Console.WriteLine(folder);
 
-            //var textFile = $"../../../{folder}/input.txt";
+            var textFile = $"../../../{folder}/input.txt";
+            //var textFile = $"../../../{folder}/input-1.txt";
+            //var textFile = $"../../../{folder}/input-2.txt";
+            //var textFile = $"../../../{folder}/input-3.txt";
+            //var textFile = $"../../../{folder}/input-4.txt";
             //var textFile = $"../../../{folder}/example.txt";
-            var textFile = $"../../../{folder}/exampleJP.txt";
+            //var textFile = $"../../../{folder}/exampleJP.txt";
             //var textFile = $"../../../{folder}/example1.txt";
             //var textFile = $"../../../{folder}/example5.txt";
 
@@ -32,8 +36,9 @@ namespace AoC2020.Day13
 
                 //Solver.Task1(lines);
                 //linesRaw.CopyTo(lines, 0);
-                Solver.Task2(lines);
+                //Solver.Task2(lines);
                 //Solver.Task2B(lines);
+                Solver.Task2C(lines);
             }
             else
             {
