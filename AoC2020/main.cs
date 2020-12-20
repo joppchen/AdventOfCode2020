@@ -34,7 +34,9 @@ namespace AoC2020
 
             //Day13.Main.Solve();
 
-            Day18.Main.Solve();
+            Day14.Main.Solve();
+
+            //Day18.Main.Solve();
         }
     }
 }
