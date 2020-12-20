@@ -76,6 +76,60 @@ namespace AoC2020.Day18
             Console.WriteLine($"Task 1: Grand total: {grandTotal}");
         }
 
+        public static void Task2(string[] expressions) // Answer: 351175492232654
+        {
+            long grandTotal = 0;
+            foreach (var expression in expressions)
+            {
+                // TODO: Explain regex
+                const string pattern = "^[^()]*" +
+                                       "(" +
+                                       "((?'Open'\\()[^()]*)+" +
+                                       "((?'Close-Open'\\))[^()]*)+" +
+                                       ")*" +
+                                       "(?(Open)(?!))$";
+                var input = string.Concat(expression.Where(x => !char.IsWhiteSpace(x)));
+
+                var m = Regex.Match(input, pattern);
+
+                var inputArray = new string[1];
+                inputArray[0] = input;
+
+                if (m.Success)
+                {
+                    while (m.Groups[5].Length > 0) // TODO: Explain group 5
+                    {
+                        foreach (Capture cap in m.Groups[5].Captures)
+                        {
+                            var groupString = cap.Value;
+                            if (groupString.Contains("(")) continue;
+                            var groupResult = CalculateGroupAdvanced(groupString);
+                            inputArray[0] = inputArray[0].Replace("(" + groupString + ")", groupResult.ToString());
+                        }
+
+                        m = Regex.Match(inputArray[0], pattern);
+                        if (!m.Success) throw new Exception($"No regex matches in string '{inputArray[0]}'");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Match failed.");
+                    Console.WriteLine($"Expression: {input}");
+                    break;
+                }
+
+                var finalResult = CalculateGroupAdvanced(inputArray[0]);
+                //Console.WriteLine(finalResult);
+
+                checked // Throws exception if integer overflow
+                {
+                    grandTotal += finalResult;
+                }
+            }
+
+            Console.WriteLine($"Task 2: Grand total: {grandTotal}");
+        }
+
         private static long CalculateGroup(string example1)
         {
             var allNumbers = Regex.Matches(example1, "\\d+");
@@ -106,6 +160,21 @@ namespace AoC2020.Day18
                     default:
                         throw new NotImplementedException($"Operator '{allOperators[i].Value}' is not implemented");
                 }
+            }
+
+            return result;
+        }
+
+        private static long CalculateGroupAdvanced(string instruction)
+        {
+            var additionGroups = instruction.Split('*');
+
+            long result = 1;
+            var sums = additionGroups.Select(CalculateGroup).ToList();
+
+            foreach (var sum in sums)
+            {
+                result *= sum;
             }
 
             return result;
