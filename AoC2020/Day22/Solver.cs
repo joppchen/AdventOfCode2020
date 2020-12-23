@@ -71,7 +71,7 @@ namespace AoC2020.Day22
 
         private static void UpdatePlayerCards(List<int> player1, List<int> player2)
         {
-            if (WinnerOfRecursiveCombat(player1, player2) == Players.Player1) FinalizeRound(player1, player2);
+            if (WinnerOfRecursiveCombatRound(player1, player2) == Players.Player1) FinalizeRound(player1, player2);
             else FinalizeRound(player2, player1);
         }
 
@@ -87,21 +87,21 @@ namespace AoC2020.Day22
             return player1.Count > player2.Count ? Players.Player1 : Players.Player2;
         }
 
-        private static Players WinnerOfRecursiveCombat(List<int> player1, List<int> player2)
+        private static Players WinnerOfRecursiveCombatRound(List<int> player1, List<int> player2)
         {
             var p1Card = player1.First();
             var p2Card = player2.First();
             if (p1Card == p2Card) throw new NotImplementedException("Equal playing cards are not implemented.");
 
-            Players winner;
+            Players winnerOfRound;
             if (player1.Count - 1 >= p1Card && player2.Count - 1 >= p2Card) // Decide winner of round by Recursive Combat
             {
-                (winner, _) = PlayRecursiveCombat(player1.GetRange(1, p1Card),
+                (winnerOfRound, _) = PlayRecursiveCombat(player1.GetRange(1, p1Card),
                     player2.GetRange(1, p2Card));
             }
-            else winner = p1Card > p2Card ? Players.Player1 : Players.Player2; // Play normal Combat
+            else winnerOfRound = p1Card > p2Card ? Players.Player1 : Players.Player2; // Play normal Combat
 
-            return winner;
+            return winnerOfRound;
         }
 
         /// <summary>
