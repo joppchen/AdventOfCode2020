@@ -11,8 +11,8 @@ namespace AoC2020.Day24
             const string folder = "Day24";
             Console.WriteLine(folder);
 
-            var textFile = $"../../../{folder}/input.txt";
-            //var textFile = $"../../../{folder}/example.txt";
+            //var textFile = $"../../../{folder}/input.txt";
+            var textFile = $"../../../{folder}/example.txt";
             //var textFile = $"../../../{folder}/example1.txt";
 
             if (File.Exists(textFile)) //
@@ -30,9 +30,9 @@ namespace AoC2020.Day24
                 /*var linesRaw = new string[lines.Length];
                 lines.CopyTo(linesRaw, 0);*/
 
-                Solver.Task1(lines);
+                //Solver.Task1(lines);
                 //linesRaw.CopyTo(lines, 0);
-                //Solver.Task2(lines);
+                Solver.Task2(lines);
             }
             else
             {
