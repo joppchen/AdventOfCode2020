@@ -7,12 +7,6 @@ using AoC2020.Common;
 
 namespace AoC2020.Day24
 {
-    internal enum Players
-    {
-        Player1 = 1,
-        Player2 = 2
-    }
-
     internal static class Solver
     {
         public static void Task1(IEnumerable<string> instructions) // Answer: 465
@@ -23,7 +17,7 @@ namespace AoC2020.Day24
             Console.WriteLine($"Task 1: Number of black registeredTiles: {numberOfBlackTiles}");
         }
 
-        public static void Task2(IEnumerable<string> instructions) // Answer: 
+        public static void Task2(IEnumerable<string> instructions) // Answer: 4078
         {
             var registeredTiles = GetBlackTiles(instructions);
 
@@ -32,88 +26,45 @@ namespace AoC2020.Day24
                 AddWhiteTilesAdjacentToBlackTiles(registeredTiles);
 
                 var tilesToFlip = new Dictionary<int[], int>(new IntArrayEqualityComparer());
-                foreach (var (key, value) in registeredTiles)
+                foreach (var (tilePosition, value) in registeredTiles)
                 {
-                    var numberOfAdjacentBlackTiles = NumberOfAdjacentBlackTiles(registeredTiles, key);
+                    if (tilesToFlip.ContainsKey(tilePosition)) continue;
+                    var adjacentBlackTiles = NumberOfAdjacentBlackTiles(registeredTiles, tilePosition);
                     switch (value)
                     {
-                        // Black tiles
                         case 1:
-                        {
-                            if (numberOfAdjacentBlackTiles == 0 || numberOfAdjacentBlackTiles > 2)
-                            {
-                                if (!tilesToFlip.ContainsKey(key)) tilesToFlip.Add(key, value);
-                            }
-
+                            if (adjacentBlackTiles == 0 || adjacentBlackTiles > 2) tilesToFlip.Add(tilePosition, value);
                             break;
-                        }
-                        // White tiles
                         case 0:
-                        {
-                            if (numberOfAdjacentBlackTiles == 2)
-                            {
-                                if (!tilesToFlip.ContainsKey(key)) tilesToFlip.Add(key, value);
-                            }
-
+                            if (adjacentBlackTiles == 2) tilesToFlip.Add(tilePosition, value);
                             break;
-                        }
                     }
                 }
 
                 var positionsToFlip = tilesToFlip.Keys.ToArray();
-                foreach (var pos in positionsToFlip)
-                {
-                    FlipTile(registeredTiles, pos);
-                }
-
-                /*var numberOfBlackTiles = registeredTiles.Sum(x => x.Value);
-                Console.WriteLine($"Task 2: Number of black tiles DAY {i}: {numberOfBlackTiles}");*/
+                foreach (var pos in positionsToFlip) FlipTile(registeredTiles, pos);
             }
 
             var numberOfBlackTiles = registeredTiles.Sum(x => x.Value);
             Console.WriteLine($"Task 2: Number of black tiles day 100: {numberOfBlackTiles}");
         }
 
-        private static Dictionary<int[], int> GenerateInterestingWhiteTiles(Dictionary<int[], int> registeredTiles)
-        {
-            var interestingWhiteTiles = new Dictionary<int[], int>(new IntArrayEqualityComparer());
-            var adjacentDirections = new[] {"ne", "e", "se", "sw", "w", "nw"};
-
-            foreach (var (key, _) in registeredTiles)
-            {
-                foreach (var adjacentDirection in adjacentDirections)
-                {
-                    var adjacentPosition = AddVectorElements(key, VectorizeDirectionString(adjacentDirection));
-
-                    // If tile does not exist in registeredTiles, register it as white
-                    if (!interestingWhiteTiles.ContainsKey(adjacentPosition))
-                        interestingWhiteTiles.Add(adjacentPosition, 0);
-                }
-            }
-
-            return interestingWhiteTiles;
-        }
-
         private static void AddWhiteTilesAdjacentToBlackTiles(Dictionary<int[], int> registeredTiles)
         {
-            var interestingWhiteTiles = new Dictionary<int[], int>(new IntArrayEqualityComparer());
             var adjacentDirections = new[] {"ne", "e", "se", "sw", "w", "nw"};
+            var tilePositions = registeredTiles.Keys.ToList();
 
-            var keys = registeredTiles.Keys.ToList();
-
-            foreach (var key in keys)
+            foreach (var tilePosition in tilePositions)
             {
                 foreach (var adjacentDirection in adjacentDirections)
                 {
-                    var adjacentPosition = AddVectorElements(key, VectorizeDirectionString(adjacentDirection));
-
-                    // If tile does not exist in registeredTiles, register it as white
+                    var adjacentPosition = AddVectorElements(tilePosition, VectorizeDirectionString(adjacentDirection));
                     if (!registeredTiles.ContainsKey(adjacentPosition)) registeredTiles.Add(adjacentPosition, 0);
                 }
             }
         }
 
-        private static int NumberOfAdjacentBlackTiles(Dictionary<int[], int> registeredTiles, int[] position)
+        private static int NumberOfAdjacentBlackTiles(IReadOnlyDictionary<int[], int> registeredTiles, int[] position)
         {
             var adjacentDirections = new[] {"ne", "e", "se", "sw", "w", "nw"};
             var numberOfAdjacentBlackTiles = 0;
@@ -155,7 +106,7 @@ namespace AoC2020.Day24
             return tilePosition;
         }
 
-        private static int[] VectorizeDirectionString(string directionValue)
+        private static IEnumerable<int> VectorizeDirectionString(string directionValue)
         {
             return directionValue switch
             {
@@ -169,30 +120,21 @@ namespace AoC2020.Day24
             };
         }
 
-        private static int[] AddVectorElements(int[] a, int[] b)
+        private static int[] AddVectorElements(IEnumerable<int> a, IEnumerable<int> b)
         {
             return a.Zip(b, (x0, x1) => x0 + x1).ToArray();
         }
 
-        private static void FlipTile(IDictionary<int[], int> blackTiles, int[] position)
+        private static void FlipTile(IDictionary<int[], int> tiles, int[] position)
         {
-            if (!blackTiles.ContainsKey(position))
-            {
-                blackTiles.Add(position, 1);
-                //Console.WriteLine("Flip first time");
-            }
+            // Used for Task 1, a bit smelly to keep when using this method also for Task 2, but it works:
+            if (!tiles.ContainsKey(position)) tiles.Add(position, 1);
+
             else
             {
-                if (blackTiles[position].Equals(1))
-                {
-                    //Console.WriteLine("Flip back to white");
-                    blackTiles[position] = 0;
-                }
-                else
-                {
-                    //Console.WriteLine("Flip back to black");
-                    blackTiles[position] = 1;
-                }
+                if (tiles[position] == 1) tiles[position] = 0;
+
+                else tiles[position] = 1;
             }
         }
 

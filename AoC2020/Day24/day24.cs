@@ -11,8 +11,8 @@ namespace AoC2020.Day24
             const string folder = "Day24";
             Console.WriteLine(folder);
 
-            //var textFile = $"../../../{folder}/input.txt";
-            var textFile = $"../../../{folder}/example.txt";
+            var textFile = $"../../../{folder}/input.txt";
+            //var textFile = $"../../../{folder}/example.txt";
             //var textFile = $"../../../{folder}/example1.txt";
 
             if (File.Exists(textFile)) //
