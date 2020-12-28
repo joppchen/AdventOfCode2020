@@ -42,8 +42,48 @@ namespace AoC2020.Day23
                 if (i > input.Count - 1) i = 0;
             }
 
-            var result = GetResultFromFinalCupOrder(input);
+            var result = GetResultFromFinalCupOrderTask1(input);
             Console.WriteLine("Task 1: {0}", string.Join("", result));
+        }
+
+        public static void Task2(string inputStr) // Answer: 
+        {
+            var input = inputStr.Select(x => int.Parse(x.ToString())).ToList();
+            var restOfInput = new int[] { };
+            var test = Enumerable.Range(input.Max() + 1, 1000000).ToArray();
+            input.AddRange(test);
+
+            var counter = 0;
+            var i = 0;
+
+            while (counter < 10000000)
+            {
+                counter++;
+                //Console.WriteLine($"-- move {counter} --");
+
+                var currentCup = input[i];
+                //Console.WriteLine("cups:  {0}", string.Join("\t", input));
+                //Console.WriteLine($"current cup: {currentCup}");
+
+                var pickUp = PickUpThreeCups(input, i + 1);
+                //Console.WriteLine("pick up: {0}", string.Join("\t", pickUp));
+
+                input.RemoveAll(x => pickUp.Any(y => y == x)); // Remove picked up cups
+
+                var destinationCup = DestinationCup(input, currentCup);
+                //Console.WriteLine($"destination: {destinationCup}");
+                //Console.WriteLine();
+
+                input.InsertRange(input.IndexOf(destinationCup) + 1, pickUp); // Insert after destination cup
+
+                RotateToGetCurrentCupAtCorrectIndex(counter, input, currentCup);
+
+                i = input.IndexOf(currentCup) + 1;
+                if (i > input.Count - 1) i = 0;
+            }
+
+            var result = GetResultFromFinalCupOrderTask2(input);
+            Console.WriteLine($"Task 2: {result}");
         }
 
         private static void RotateToGetCurrentCupAtCorrectIndex(int counter, List<int> input, int currentCup)
@@ -57,7 +97,7 @@ namespace AoC2020.Day23
             input.AddRange(moveToEnd);
         }
 
-        private static List<int> GetResultFromFinalCupOrder(List<int> input)
+        private static List<int> GetResultFromFinalCupOrderTask1(List<int> input)
         {
             var result = new List<int>();
             var startIndex = input.IndexOf(1) + 1;
@@ -67,6 +107,19 @@ namespace AoC2020.Day23
             }
 
             return result;
+        }
+
+        private static int GetResultFromFinalCupOrderTask2(List<int> input)
+        {
+            var startIndex = input.IndexOf(1) + 1;
+
+            var result2 = 0;
+            checked
+            {
+                result2 = input[RotationalIndex(input, startIndex)] * input[RotationalIndex(input, startIndex + 1)];
+            }
+
+            return result2;
         }
 
         private static List<int> PickUpThreeCups(List<int> input, in int startIndex)

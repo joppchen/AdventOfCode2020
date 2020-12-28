@@ -11,8 +11,8 @@ namespace AoC2020.Day23
             const string folder = "Day23";
             Console.WriteLine(folder);
 
-            var textFile = $"../../../{folder}/input.txt";
-            //var textFile = $"../../../{folder}/example.txt";
+            //var textFile = $"../../../{folder}/input.txt";
+            var textFile = $"../../../{folder}/example.txt";
 
             if (File.Exists(textFile)) //
             {
@@ -29,9 +29,13 @@ namespace AoC2020.Day23
                 /*var linesRaw = new string[lines.Length];
                 lines.CopyTo(linesRaw, 0);*/
 
-                Solver.Task1(lines);
+                var watch = System.Diagnostics.Stopwatch.StartNew();
+                //Solver.Task1(lines);
                 //linesRaw.CopyTo(lines, 0);
-                //Solver.Task2(lines);
+
+                Solver.Task2(lines);
+                watch.Stop();
+                Console.WriteLine($"Time consumption Task 2: {watch.ElapsedMilliseconds} [ms]");
             }
             else
             {
