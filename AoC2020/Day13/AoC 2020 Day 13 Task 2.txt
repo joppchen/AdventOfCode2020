@@ -1,0 +1,10 @@
+lcm calc: https://www.calculatorsoup.com/calculators/math/lcm.php
+gcf calc: https://www.calculatorsoup.com/calculators/math/gcf.php
+
+oppskrift: https://math.stackexchange.com/questions/2218763/how-to-find-lcm-of-two-numbers-when-one-starts-with-an-offset
+extended Euclidean algorithm: https://en.wikipedia.org/wiki/Extended_Euclidean_algorithm
+
+
+another source with example: https://www.reddit.com/r/learnprogramming/comments/7bcw31/least_common_multiple_with_an_offset/
+another source: https://math.stackexchange.com/questions/2001048/algorithm-with-gcd-and-lcm
+C# lcm: https://stackoverflow.com/questions/13569810/least-common-multiple
